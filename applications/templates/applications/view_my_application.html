@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <main class="application-details">
+        <!-- Job Information Section -->
+        <section class="job-info">
+            <h2>Job Information</h2>
+            <div class="job-info-item">
+                <strong>Job Title:</strong> <span>{{ application.job_posting.title }}</span>
+            </div>
+            <div class="job-info-item">
+                <strong>Company:</strong> 
+                <div class="company-cell">
+                    <img src="{{ application.job_posting.employer.employer_profile.company.logo.url }}" alt="Company Logo" class="logo" width="200px" height="auto">
+                    <span>{{ application.job_posting.employer.employer_profile.company}}</span>
+                </div>
+            </div>
+            <div class="job-info-item">
+                <strong>Location:</strong> <span>{{ application.job_posting.location }}</span>
+            </div>
+            <div class="job-info-item">
+                <strong>Posted On:</strong> <span>{{ application.job_posting.created_at }}</span>
+            </div>
+        </section>
+
+        <!-- Applicant Profile Section -->
+        <section class="applicant-info">
+            <h2>Applicant Information</h2>
+            <div class="applicant-info-item">
+                <strong>Name:</strong> <span>{{ application.job_seeker.job_seeker_profile.first_name }} {{ application.job_seeker.job_seeker_profile.last_name }}</span>
+            </div>
+            <div class="applicant-info-item">
+                <strong>Email:</strong> <span>{{ application.job_seeker.email }}</span>
+            </div>
+            <div class="applicant-info-item">
+                <strong>Applied On:</strong> <span>{{ application.applied_at }}</span>
+            </div>
+        </section>
+
+        <!-- Cover Letter and Resume -->
+        <section class="documents">
+            <h2>Documents</h2>
+            <div class="document-item">
+                <strong>Cover Letter:</strong>
+                <a href="{{ application.cover_letter.url }}" download>Download</a>
+            </div>
+            {% if application.resume %}
+            <div class="document-item">
+                <strong>Resume:</strong>
+                <a href="{{ application.resume.url }}" download>Download</a>
+            </div>
+            {% else %}
+            <div class="document-item">
+                <strong>Resume:</strong> <span>Not Provided</span>
+            </div>
+            {% endif %}
+        </section>
+
+        <!-- Application Status -->
+        <section class="status-info">
+            <h2>Application Status</h2>
+            <div class="status-item">
+                <strong>Status:</strong> 
+                <span class="{{ application.status }}">
+                    {{ application.get_status_display }}
+                </span>
+            </div>
+        </section>
+
+        <!-- Buttons for Actions -->
+        <section class="actions">
+            <button class="btn">Edit Application</button>
+            <button class="btn btn-danger">Delete Application</button>
+        </section>
+        <a href="{{referer}}" style="margin-bottom: 50px;">Back</a>
+    </main>
+
+
+
+{% endblock content %}

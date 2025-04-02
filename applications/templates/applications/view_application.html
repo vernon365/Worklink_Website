@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="app-application-details">
+    <h1>Application Details</h1>
+    <div class="app-application-info">
+        <p><strong>Job Posting:</strong> {{ application.job_posting.title }}</p>
+        <p><strong>Job Seeker:</strong> {{ application.job_seeker.username }}</p>
+        <p><strong>Applied At:</strong> {{ application.applied_at }}</p>
+        <p><strong>Status:</strong> {{ application.get_status_display }}</p>
+    </div>
+
+    <div class="app-user-profile" onclick="window.location.href='{{ application.job_seeker.profile_url }}'">
+        <img src="{{ application.job_seeker.profile_picture }}" alt="Profile Picture" class="app-profile-pic" />
+        <div class="app-profile-info">
+            <h3>{{ application.job_seeker.username }}</h3>
+            <p>{{ application.job_seeker.university }}</p>
+        </div>
+    </div>
+
+    <div class="app-document-links">
+        <h2>Documents</h2>
+        
+        {% if application.cover_letter %}
+            <div class="app-doc-link">
+                <a href="{{ application.cover_letter.url }}" target="_blank">
+                    <button class="app-doc-button" data-application-id="{{ application.id }}">View Cover Letter</button>
+                </a>
+            </div>
+        {% else %}
+            <p>No cover letter provided.</p>
+        {% endif %}
+    
+        {% if application.resume %}
+            <div class="app-doc-link">
+                <a href="{{ application.resume.url }}" target="_blank">
+                    <button class="app-doc-button" data-application-id="{{ application.id }}">View Resume</button>
+                </a>
+            </div>
+        {% else %}
+            <p>No resume provided.</p>
+        {% endif %}
+    </div>
+
+    <div class="app-back-button">
+        <a href="{% url 'home' %}" class="app-nav-link">Back Dashboard</a>
+        <span>|</span>
+        <a href="{% url 'home' %}" class="app-nav-link">Schedule an Interview</a>
+        <a href="{% url 'confirm_application' application.id %}">
+        <button class="app-action-button" id="app-accept_application_btn">ACCEPT</button>
+        </a>
+        <a href="{% url 'reject_application' application.id %}">
+            <button class="app-action-button" id="app-accept_application_btn">Reject</button>
+        </a>
+        <button class="app-action-button" id="app-accept_application_btn" data-application-id="{{ application.id }}" data-status="accepted">Accept</button>
+        <button class="app-action-button reject" id="app-reject_application_btn" data-application-id="{{ application.id }}" data-status="rejected">Reject</button>
+    </div>
+</div>
+{% endblock content %}

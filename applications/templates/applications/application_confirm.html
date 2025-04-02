@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    Are you sure you want to Accept this application?
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="submit" value="YES">
+        <a href="">NO</a>
+    </form>
+{% endblock content %}

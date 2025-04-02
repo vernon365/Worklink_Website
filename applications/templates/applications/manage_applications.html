@@ -1,0 +1,23 @@
+<!-- templates/applications/manage_applications.html -->
+{% extends "main.html" %}
+
+{% block content %}
+<h2>Manage Applications for {{ job_posting.title }}</h2>
+
+<ul>
+    {% for application in applications %}
+    <li>
+        <strong>{{ application.job_seeker.username }}</strong>
+        <p>Status: {{ application.get_status_display }}</p>
+        <a href="{{ application.cover_letter.url }}">View Cover Letter</a> |
+        <a href="{{ application.resume.url }}">View Resume</a> 
+        {% if application.status == 'pending' %}
+            <a href="{% url 'update_application_status' application.id 'accepted' %}">Accept</a> |
+            <a href="{% url 'update_application_status' application.id 'rejected' %}">Reject</a>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'list_job_postings' %}">Back to Job Postings</a>
+{% endblock %}

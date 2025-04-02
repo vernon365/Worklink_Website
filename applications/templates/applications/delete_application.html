@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <div id="application-{{ application.id }}">
+        <h3>Are you sure you want to delete this application</h3>
+        <p>{{ application.job_posting.title }} - {{ application.status }}</p>
+        <a href="{% url 'delete_application' application.id %}"><button class="delete-btn">Delete</button></a>
+        <a href="{% url 'job_seeker_db' %}">Back</a>
+    </div>
+{% endblock content %}

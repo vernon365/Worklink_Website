@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <header style="margin-bottom: 30px; padding: 30px">
+        <h1>Job Seeker Dashboard</h1>
+    </header>
+    <main>
+        <section class="j-d-b-overview">
+            <div class="j-d-b-overview-item">
+                <h2>Total Applications</h2>
+                <p id="total-applications">{{applications.count}}</p>
+            </div>
+            <div class="j-d-b-overview-item">
+                <h2>Interviews Scheduled</h2>
+                <p id="scheduled-interviews">4</p>
+            </div>
+            <div class="j-d-b-overview-item">
+                <h2>Saved Jobs</h2>
+                <p id="saved-jobs-count">{{saved_jobs.count}}</p>
+            </div>
+        </section>
+
+        <!-- My Applications Section -->
+        <section id="applications" class="j-d-b-applications-section">
+            <h2>My Applications</h2>
+            {% if applications.count > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Company</th>
+                        <th>Status</th>
+                        <th>Applied On</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="applications-list">
+                    {% for app in applications %}
+                    <tr>
+                        <td>{{app.job_posting}}</td>
+                        <td>
+                            <div class="j-d-b-company-cell">
+                                <img src="{{ app.job_posting.employer.employer_profile.company.logo.url }}" alt="Company Logo" class="j-d-b-logo">
+                                <span>{{app.job_posting.employer.employer_profile.company}}</span>
+                            </div>
+                        </td>
+                        {% if app.status == 'accepted' %}
+                        <td style="background-color: yellow;">
+                            ACCEPTED
+                        </td>
+                        {% else %}
+                         <td>
+                            {{app.status}}
+                         </td> 
+                        {% endif %}
+
+                        <td>{{app.applied_at}}</td>
+                        <td>
+                            <a href="{% url 'view_my_application' app.id %}"><button class="j-d-b-btn">View</button></a>
+                            <a href="{% url 'request_application_delete' app.id %}"><button class="j-d-b-btn">Delete</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <!-- More applications can be added here -->
+                </tbody>
+            </table>
+            {% else %}
+                <h3>You have no Applications</h3>
+            {% endif %}
+        </section>
+
+        <!-- Upcoming Interviews Section -->
+        <section id="interviews" class="j-d-b-interviews-section">
+            <h2>Upcoming Interviews</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Company</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Location</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="interviews-list">
+                    <tr>
+                        <td>Software Engineer</td>
+                        <td>
+                            <div class="j-d-b-company-cell">
+                                <img src="logo1.png" alt="Company Logo" class="j-d-b-logo">
+                                <span>Tech Company A</span>
+                            </div>
+                        </td>
+                        <td>2024-10-10</td>
+                        <td>10:00 AM</td>
+                        <td>Online</td>
+                        <td>
+                            <button class="j-d-b-btn" onclick="viewDetails()">View</button>
+                            <button class="j-d-b-btn" onclick="deleteInterview()">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Data Analyst</td>
+                        <td>
+                            <div class="j-d-b-company-cell">
+                                <img src="logo2.png" alt="Company Logo" class="j-d-b-logo">
+                                <span>Data Corp</span>
+                            </div>
+                        </td>
+                        <td>2024-10-12</td>
+                        <td>2:00 PM</td>
+                        <td>Office</td>
+                        <td>
+                            <button class="j-d-b-btn" onclick="viewDetails()">View</button>
+                            <button class="j-d-b-btn" onclick="deleteInterview()">Delete</button>
+                        </td>
+                    </tr>
+                    <!-- More interviews can be added here -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Saved Jobs Section -->
+        <section id="saved-jobs" class="j-d-b-saved-jobs-section">
+            <h2>Saved Jobs</h2>
+            {% if saved_jobs.count > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Company</th>
+                        <th>Date Saved</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="saved-jobs-list">
+                    {% for sb in saved_jobs %}
+                    <tr>
+                        <td>{{sb.job.title}}</td>
+                        <td>
+                            <div class="j-d-b-company-cell">
+                                <img src="{{sb.job.employer.employer_profile.company.logo.url}}" alt="Company Logo" class="j-d-b-logo">
+                                <span>{{sb.job.employer.employer_profile.company}}</span>
+                            </div>
+                        </td>
+                        <td>2024-09-30</td>
+                        <td>
+                            <a href="{% url 'view_detail_job_posting' sb.job.id %}">
+                                <button class="j-d-b-btn">View</button>
+                            </a>
+                            <button class="j-d-b-btn" onclick="deleteSavedJob()">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table> 
+            {% else %}
+                <h3>You have no saved jobs</h3>
+            {% endif %}
+
+        </section>
+    </main>
+
+{% endblock content %}

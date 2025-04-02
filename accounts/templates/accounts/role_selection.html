@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="a-s-header">What type of account would you like you to create?</h2>
+<div class="a-s-form-container">
+    <h2 class="a-s-account-type">Account Type</h2>
+    <hr class="a-s-hr">
+    <form method="post">
+        {% csrf_token %}
+        <div class="a-s-radio-group">
+            <label class="a-s-label">
+                <input type="radio" name="role" value="job_seeker" required>
+                <div class="a-s-name">
+                    Job Seeker
+                </div>
+            </label>
+            <label class="a-s-label">
+                <input type="radio" name="role" value="employer" required>
+                <div class="a-s-name">
+                    Employer
+                </div>
+            </label>
+        </div>
+        <button type="submit" class="a-s-submit-button">Save</button>
+    </form>
+</div>
+
+{% endblock content %}

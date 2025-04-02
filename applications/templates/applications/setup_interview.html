@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="in-container">
+    <h1>Setup Interview</h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="in-form-group">
+            <label for="in-job_seeker">Job Seeker:</label>
+            <select id="in-job_seeker" name="job_seeker" required>
+                {% for seeker in job_seekers %}
+                    <option value="{{ seeker.id }}">{{ seeker.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="in-form-group">
+            <label for="in-employer">Employer:</label>
+            <select id="in-employer" name="employer" required>
+                {% for employer in employers %}
+                    <option value="{{ employer.id }}">{{ employer.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="in-form-group">
+            <label for="in-date">Date and Time:</label>
+            <input type="datetime-local" id="in-date" name="date" required>
+        </div>
+
+        <div class="in-form-group">
+            <label for="in-location">Location:</label>
+            <input type="text" id="in-location" name="location" required>
+        </div>
+
+        <div class="in-form-group">
+            <label for="in-status">Status:</label>
+            <select id="in-status" name="status" required>
+                <option value="scheduled">Scheduled</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+            </select>
+        </div>
+
+        <button type="submit" class="in-button">Create Interview</button>
+    </form>
+</div>
+{% endblock content %}

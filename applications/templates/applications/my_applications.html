@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <br>
+    <hr>
+    {% for app in my_applications %}
+        <li><h2>{{app.job_posting}}</h2>
+            Company: {{app.job_posting.employer.company_name}} <br>
+            Status: {{app.status}}
+        </li>
+    {% endfor %}
+{% endblock content %}
