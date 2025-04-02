@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- templates/job_postings/list_job_postings.html -->
+
+    <h2>Job Postings</h2>
+    <ul>
+        {% for job in job_postings %}
+            <li>
+                <h2>{{job.employer.company_name}}</h2>
+                <strong>{{ job.title }}</strong><br>
+                {{ job.description }}<br>
+                Location: {{ job.location }}<br>
+                Salary: ${{ job.salary }}<br>
+                Deadline: {{ job.deadline }}<br>
+                
+                
+                <!-- Display apply button only if the user is authenticated and is a job seeker -->
+                {% if user.is_authenticated and user.role == 'job_seeker'%}
+                    <button><a href="{% url 'apply_to_job' job.id %}" class="btn btn-primary">Apply</a></button>
+                {% endif %}
+                    <button><a href="{% url 'view_detail_job_posting' job.id %}" class="btn btn-primary">View</a></button>
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'create_job_posting' %}">Create New Job Posting</a>
+{% endblock content %}

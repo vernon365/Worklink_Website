@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class='i-e-heading'>Setup your Company Profile</h2>
+<div class="cc-p-s-container">
+    <h2 class="cc-p-s-heading">Create New Company Profile</h2>
+    
+    <form method="POST" enctype="multipart/form-data" class="cc-p-s-form">
+        {% csrf_token %}
+
+        <!-- Name Field -->
+        <div class="cc-p-s-field">
+            <label for="name" class="cc-p-s-label">Name:</label>
+            <input type="text" id="name" name="name" class="cc-p-s-input" required>
+        </div>
+
+        <!-- Description Field -->
+        <div class="cc-p-s-field">
+            <label for="description" class="cc-p-s-label">Description:</label>
+            <textarea id="description" name="description" class="cc-p-s-textarea"></textarea>
+        </div>
+
+        <!-- Industry Field -->
+        <div class="cc-p-s-field">
+            <label for="industry" class="cc-p-s-label">Industry:</label>
+            <input type="text" id="industry" name="industry" class="cc-p-s-input">
+        </div>
+
+        <!-- Logo Field -->
+        <div class="cc-p-s-field">
+            <label for="logo" class="cc-p-s-label">Logo:</label>
+            <input type="file" id="logo" name="logo" class="cc-p-s-file-input">
+        </div>
+
+        <!-- Address Field -->
+        <div class="cc-p-s-field">
+            <label for="address" class="cc-p-s-label">Address:</label>
+            <textarea id="address" name="address" class="cc-p-s-textarea"></textarea>
+        </div>
+
+        <!-- Phone Number Field -->
+        <div class="cc-p-s-field">
+            <label for="phone_number" class="cc-p-s-label">Phone Number:</label>
+            <input type="text" id="phone_number" name="phone_number" class="cc-p-s-input">
+        </div>
+
+        <!-- Email Field -->
+        <div class="cc-p-s-field">
+            <label for="email" class="cc-p-s-label">Email:</label>
+            <input type="email" id="email" name="email" class="cc-p-s-input">
+        </div>
+
+        <!-- Website Field -->
+        <div class="cc-p-s-field">
+            <label for="website" class="cc-p-s-label">Website:</label>
+            <input type="url" id="website" name="website" class="cc-p-s-input">
+        </div>
+
+        <!-- Size Field -->
+        <div class="cc-p-s-field">
+            <label for="size" class="cc-p-s-label">Size:</label>
+            <input type="text" id="size" name="size" class="cc-p-s-input">
+        </div>
+
+        <!-- Headquarters Field -->
+        <div class="cc-p-s-field">
+            <label for="headquarters" class="cc-p-s-label">Headquarters:</label>
+            <input type="text" id="headquarters" name="headquarters" class="cc-p-s-input">
+        </div>
+
+        <!-- Active Field -->
+        <div class="cc-p-s-field">
+            <label for="is_active" class="cc-p-s-label">Active:</label>
+            <select id="is_active" name="is_active" class="cc-p-s-select">
+                <option value="True">Yes</option>
+                <option value="False">No</option>
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="cc-p-s-btn cc-p-s-btn-primary">Create Company</button>
+    </form>
+</div>
+
+{% endblock content %}

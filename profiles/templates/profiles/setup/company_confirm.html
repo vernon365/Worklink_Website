@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="e-c-c-container">
+    <p class="e-c-c-prompt">Are you sure this is the company you work for?</p>
+
+    <div class="e-c-c-company-details" style="text-align: center;">
+        <div class="e-c-c-company-logo">
+            <img src="{{company.logo.url}}" alt="" width="300px" height="auto">
+        </div>
+        <h3 class="e-c-c-company-name">{{ company.name }}</h3>
+        <p class="e-c-c-company-info">Address: {{ company.address }}</p>
+        <p class="e-c-c-company-info">Industry: {{ company.industry }}</p>
+        <p class="e-c-c-company-info">Website: <a href="{{ company.website }}" class="e-c-c-company-link">{{ company.website }}</a></p>
+        <p class="e-c-c-company-info">Description: {{ company.description }}</p>
+    </div>
+
+    <form method="POST" action="{% url 'confirm_company' company.id %}" class="e-c-c-confirm-form">
+        {% csrf_token %}
+        <button type="submit" name="response" value="yes" class="e-c-c-btn e-c-c-btn-yes">Yes</button>
+        <button type="submit" name="response" value="no" class="e-c-c-btn e-c-c-btn-no">No</button>
+    </form>
+</div>
+{% endblock content %}

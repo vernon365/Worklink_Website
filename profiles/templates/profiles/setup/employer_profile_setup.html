@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class='i-e-heading'>Setup your Employer Profile</h2>
+<div class="c-e-p-container">
+    <h2 class="c-e-p-heading">Employer Profile Setup</h2>
+    <form method="POST" enctype="multipart/form-data" class="c-e-p-form">
+        {% csrf_token %}
+
+        <!-- First Name Field -->
+        <div class="c-e-p-form-group">
+            <label for="first_name" class="c-e-p-label">First Name:</label>
+            <input type="text" name="first_name" id="first_name" class="c-e-p-input" required>
+        </div>
+
+        <!-- Last Name Field -->
+        <div class="c-e-p-form-group">
+            <label for="last_name" class="c-e-p-label">Last Name:</label>
+            <input type="text" name="last_name" id="last_name" class="c-e-p-input" required>
+        </div>
+
+        <!-- Profile Photo Field -->
+        <div class="c-e-p-form-group">
+            <label for="profile_photo" class="c-e-p-label">Profile Photo:</label>
+            <input type="file" name="profile_photo" id="profile_photo" class="c-e-p-file-input">
+        </div>
+
+        <!-- Position Field -->
+        <div class="c-e-p-form-group">
+            <label for="position" class="c-e-p-label">Position in the Company:</label>
+            <input type="text" name="position" id="position" class="c-e-p-input">
+        </div>
+
+        <!-- Phone Number Field -->
+        <div class="c-e-p-form-group">
+            <label for="phone" class="c-e-p-label">Phone Number:</label>
+            <input type="text" name="phone" id="phone" class="c-e-p-input">
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="c-e-p-btn c-e-p-btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock content %}

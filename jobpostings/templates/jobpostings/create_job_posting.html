@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="job-posting-wrapper-unique">
+    <h2 id="job-posting-title-unique">Create Job Posting</h2>
+    <form id="job-posting-form-unique" method="post">
+        {% csrf_token %}
+        <!-- Job Details -->
+        <fieldset class="job-section-unique">
+            <legend>Job Details</legend>
+            <div class="form-group-unique">
+                <label for="input-job-title-unique">Job Title:</label>
+                <input type="text" id="input-job-title-unique" name="title" required>
+            </div>
+            <div class="form-group-unique">
+                <label for="input-job-description-unique">Description:</label>
+                <textarea id="input-job-description-unique" name="description" required></textarea>
+            </div>
+            <div class="form-group-unique">
+                <label for="select-job-type-unique">Job Type:</label>
+                <select id="select-job-type-unique" name="job_type" required>
+                    <option value="">-- Select Job Type --</option>
+                    {% for value, display in JOB_TYPE_CHOICES %}
+                        <option value="{{ value }}">{{ display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group-unique">
+                <label for="select-industry-unique">Industry:</label>
+                <select id="select-industry-unique" name="industry" required>
+                    <option value="">-- Select an Industry --</option>
+                    {% for value, display in INDUSTRY_CHOICES %}
+                        <option value="{{ value }}">{{ display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group-unique">
+                <label for="select-job-location-unique">Location:</label>
+                <select id="select-job-location-unique" name="location" required>
+                    <option value="">-- Select Which Province --</option>
+                    {% for value, display in PROVINCE_CHOICES %}
+                        <option value="{{ value }}">{{ display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group-unique">
+                <label for="input-salary-range-unique">Salary Range:</label>
+                <input type="text" id="input-salary-range-unique" name="salary_range">
+            </div>
+            <div class="form-group-unique">
+                <label for="application_deadline">Application Deadline:</label>
+                <input type="datetime-local" name="application_deadline" id="unique-deadline" required><br>
+            </div>
+        </fieldset>
+
+        <!-- Requirements -->
+        <fieldset class="requirements-section-unique">
+            <legend>Requirements</legend>
+            <div class="form-group-unique">
+                <label for="select-experience-level-unique">Experience Level:</label>
+                <select id="select-experience-level-unique" name="experience_level" required>
+                    <option value="">-- Select Experience Level --</option>
+                    {% for value, display in EXPERIENCE_LEVEL_CHOICES %}
+                        <option value="{{ value }}">{{ display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group-unique">
+                <label for="input-required-skills-unique">Required Skills:</label>
+                <textarea id="input-required-skills-unique" name="required_skills" placeholder="List skills, separated by commas" required></textarea>
+            </div>
+            <div class="form-group-unique">
+                <label for="input-education-required-unique">Education Required:</label>
+                <input type="text" id="input-education-required-unique" name="education_required">
+            </div>
+        </fieldset>
+
+        <!-- Application Details -->
+        <fieldset class="application-details-section-unique">
+            <legend>Application Details</legend>
+            <div class="form-group-unique">
+                <label for="input-contact-email-unique">Contact Email:</label>
+                <input type="email" id="input-contact-email-unique" name="contact_email" required>
+            </div>
+        </fieldset>
+
+        <!-- Submit -->
+        <div class="form-group-unique">
+            <button type="submit" id="submit-job-posting-unique">Create Job Posting</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

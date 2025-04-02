@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="e-p-form-container">
+    <h2 class="e-p-heading">How would you like to set up your profile?</h2>
+    <div class="e-p-form-container">
+        <form method="POST" action="{% url 'employer_type_selection' %}">
+            {% csrf_token %}
+            <div class="e-p-form-group">
+                <input type="radio" id="company" name="employer_type" value="company" required class="e-p-radio">
+                <label for="company" class="e-p-label">I work for a company</label><br>
+    
+                <input type="radio" id="individual" name="employer_type" value="individual" required class="e-p-radio">
+                <label for="individual" class="e-p-label">I am an individual looking for experts</label><br>
+            </div>
+            <button type="submit" class="e-p-btn">Next</button>
+        </form>
+    </div>
+    
+{% endblock content %}

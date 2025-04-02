@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <div class="my-space-container"></div>
+    <div class="profile-container">
+        <header class="profile-header">
+            <div class="profile-picture">
+                <img src="{{ user_profile.profile_photo.url }}" alt="{{ user_profile.first_name }}'s profile photo" alt="Profile Picture">
+            </div>
+            <div class="profile-info">
+                <h1>{{user_profile.first_name}} {{user_profile.last_name}}</h1>
+                <p class="job-title">{{user_profile.carrier}}</p>
+                <p class="location">{{user_profile.province}}</p>
+            </div>
+        </header>
+    
+        <section class="about-section">
+            <h2>About Me</h2>
+            <p>{{user_profile.about_me}}</p>
+        </section>
+    
+        <section class="experience-section">
+            <h2>Experiences</h2>
+            {% if experience.count == 0 %}
+                No Experience
+            {% else %}
+                {% for experience in experiences %}
+                    <ul>
+                        <li>
+                            <div class="experience-header">
+                                <h3 class="experience-title">{{experience.title}}</h3>
+                                <span class="experience-organization">Organization: {{experience.organization}}</span>
+                            </div>
+                            <p class="experience-description">{{experience.description}}</p>
+                            <div class="experience-referer">
+                                <strong>Referer:</strong>{{experience.referer_name}}<br>
+                                <strong>Contact:</strong> {{experience.referer_contact}}
+                            </div>
+                        </li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
+        </section>
+    
+        <section class="skills-section">
+            <h2>Skills</h2>
+            <div class="skill-tags">
+
+            {% if skills.count == 0 %}
+                No Skills
+            {% else %}
+                {% for skill in skills %}
+                    <ul class="u-skills-list" id="u-skills-list">
+                        <li class="u-skills-list-item">{{skill}}</li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
+                
+            </div>
+        </section>
+    
+        <section class="contact-section">
+            <h2>Contact Information</h2>
+            <p>Email: johndoe@example.com</p>
+            <p>Phone: +123456789</p>
+        </section>
+    
+        <footer>
+            <button class="edit-profile-btn" onclick="editProfile()">Edit Profile</button>
+        </footer>
+    </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const colors = ["#FF5733", "#33FF57", "#3357FF", "#F3FF33"]; // Array of background colors
+        const listItems = document.querySelectorAll("#u-skills-list .u-skills-list-item");
+    
+        listItems.forEach((item, index) => {
+            item.style.backgroundColor = colors[index % colors.length]; // Cycle through colors
+        });
+    });
+    
+</script>
+{% endblock content %}

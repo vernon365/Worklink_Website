@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="js-a-s-form-container">
+    <h2 class="js-a-s-heading">Job Seeker Profile Setup</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="js-a-s-form-group">
+            <label for="first_name" class="js-a-s-label">First Name:</label>
+            <input type="text" name="first_name" id="first_name" class="js-a-s-form-control" required value="{{ profile.first_name }}">
+        </div>
+
+        <div class="js-a-s-form-group">
+            <label for="last_name" class="js-a-s-label">Last Name:</label>
+            <input type="text" name="last_name" id="last_name" class="js-a-s-form-control" required value="{{ profile.last_name }}">
+        </div>
+
+        <div class="js-a-s-form-group">
+            <label for="carrier" class="js-a-s-label">Carrier:</label>
+            <input type="text" name="carrier" id="carrier" class="js-a-s-form-control" rows="4">{{ profile.carrier }}</input>
+        </div>
+
+        <div class="js-a-s-form-group">
+            <label for="about_me" class="js-a-s-label">About Me:</label>
+            <textarea name="about_me" id="about_me" class="js-a-s-form-control" rows="4">{{ profile.about_me }}</textarea>
+        </div>
+
+        <div class="js-a-s-form-group">
+            <label for="profile_photo" class="js-a-s-label">Profile Photo:</label>
+            <input type="file" name="profile_photo" id="profile_photo" class="js-a-s-form-control-file">
+        </div>
+
+        <div class="js-a-s-form-group">
+            <label for="phone" class="js-a-s-label">Phone Number:</label>
+            <input type="text" name="phone" id="phone" class="js-a-s-form-control" value="{{ profile.phone }}">
+        </div>
+
+
+        <div class="js-a-s-form-group">
+            <label for="school_or_university" class="js-a-s-label">School/University:</label>
+            <select name="school_or_university" id="school_or_university" class="js-a-s-form-control">
+                <option value="" selected disabled>Choose a School/University</option>
+                {% for value, display in school_choices %}
+                    <option value="{{ value }}" {% if profile.school_or_university == value %}selected{% endif %}>
+                        {{ display }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="js-a-s-form-group">
+            <label for="years_of_experience" class="js-a-s-label">Years of Experience:</label>
+            <input type="number" name="years_of_experience" id="years_of_experience" class="js-a-s-form-control" value="{{ profile.years_of_experience }}">
+        </div>
+
+        <div class="js-a-s-form-group">
+            <label for="province" class="js-a-s-label">Province:</label>
+            <select name="province" id="province" class="js-a-s-form-control">
+                <option value="" selected disabled>Choose a Province</option>
+                {% for value, display in province_choices %}
+                    <option value="{{ value }}" {% if profile.province == value %}selected{% endif %}>
+                        {{ display }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="js-a-s-form-group">
+            <label for="industry" class="js-a-s-label">Industry:</label>
+            <select name="industry" id="industry" class="js-a-s-form-control">
+                <option value="" selected disabled>Choose an Industry</option>
+                {% for value, display in industry_choices %}
+                    <option value="{{ value }}" {% if profile.industry == value %}selected{% endif %}>
+                        {{ display }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="js-a-s-form-group">
+            <label for="available" class="js-a-s-label">Available for Work:</label>
+            <input type="checkbox" name="available" id="available" class="js-a-s-form-control" {% if profile.available %}checked{% endif %}>
+        </div>
+
+        <button type="submit" class="js-a-s-btn-primary">Submit</button>
+    </form>
+</div>
+
+{% endblock content %}

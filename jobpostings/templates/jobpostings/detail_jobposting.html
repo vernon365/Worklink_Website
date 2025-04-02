@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="view-job-container">
+    <div class="job-header">
+        <img src="{{ job.company.logo.url }}" alt="{{ job.company.name }} Logo" class="company-logo">
+        <div>
+            <h1 class="view-job-title">{{ job.title }}</h1>
+            <p class="company-name">{{ job.company.name }}</p>
+        </div>
+    </div>
+    
+    <p class="view-job-description">{{ job.description }}</p>
+    
+    <ul class="view-job-details">
+        <li><strong>Type:</strong> {{ job.get_job_type_display }}</li>
+        <li><strong>Location:</strong> {{ job.location }}</li>
+        <li><strong>Remote:</strong> {{ job.remote|yesno:"Yes,No" }}</li>
+        <li><strong>Salary Range:</strong> {{ job.salary_range }}</li>
+        <li><strong>Experience Level:</strong> {{ job.get_experience_level_display }}</li>
+        <li><strong>Required Skills:</strong> {{ job.required_skills }}</li>
+        <li><strong>Education Required:</strong> {{ job.education_required }}</li>
+        <li><strong>Posted Date:</strong> {{ job.posted_date }}</li>
+        <li><strong>Application Deadline:</strong> {{ job.application_deadline }}</li>
+        <li><strong>Contact Email:</strong> {{ job.contact_email }}</li>
+        <li><strong>Status:</strong> {{ job.is_active|yesno:"Active,Inactive" }}</li>
+    </ul>
+    
+    <div class="job-actions">
+        {% if not applied %}
+        <a href="{% url 'apply_to_job' job.id %}"><button class="btn-apply">Apply</button></a>
+        {% else %}
+        <a href="{% url 'view_my_application' app.id %}">
+            <button>View your Application for this Job</button> 
+        </a>
+        {% endif %}
+        
+        {% if not saved %}
+        <a href="{% url 'save_job' job.id %}"><button class="btn-save">Save</button></a>
+        {% else %}
+        <p style="text-align: center;">You have saved this job</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock content %}

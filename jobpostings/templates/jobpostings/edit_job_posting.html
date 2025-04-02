@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="edit-job-container">
+    <h1 class="edit-job-title">Edit Job Posting</h1>
+    <form action="{% url 'edit_job_posting' job_posting.id %}" method="post" class="edit-job-form">
+        {% csrf_token %}
+        
+        <label for="edit-title">Title:</label>
+        <input type="text" id="edit-title" name="title" value="{{ job_posting.title }}" required>
+
+        <label for="edit-description">Description:</label>
+        <textarea id="edit-description" name="description" required>{{ job_posting.description }}</textarea>
+
+        <label for="edit-job-type">Job Type:</label>
+        <select id="edit-job-type" name="job_type" required>
+            {% for value, display in job_posting.JOB_TYPE_CHOICES %}
+                <option value="{{ value }}" {% if job_posting.job_type == value %}selected{% endif %}>{{ display }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="edit-location">Location:</label>
+        <input type="text" id="edit-location" name="location" value="{{ job_posting.location }}" required>
+
+        <label for="edit-remote">Remote:</label>
+        <input type="checkbox" id="edit-remote" name="remote" {% if job_posting.remote %}checked{% endif %}>
+
+        <label for="edit-salary-range">Salary Range:</label>
+        <input type="text" id="edit-salary-range" name="salary_range" value="{{ job_posting.salary_range }}">
+
+        <label for="edit-posted-date">Posted Date:</label>
+        <input type="datetime-local" id="edit-posted-date" name="posted_date" value="{{ job_posting.posted_date|date:'Y-m-d\TH:i' }}">
+        
+        <label for="edit-application-deadline">Application Deadline:</label>
+        <input type="datetime-local" id="edit-application-deadline" name="application_deadline" value="{{ job_posting.application_deadline|date:'Y-m-d\TH:i' }}">
+        
+
+        <label for="edit-experience-level">Experience Level:</label>
+        <select id="edit-experience-level" name="experience_level" required>
+            {% for value, display in job_posting.EXPERIENCE_LEVEL_CHOICES %}
+                <option value="{{ value }}" {% if job_posting.experience_level == value %}selected{% endif %}>{{ display }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="edit-required-skills">Required Skills:</label>
+        <textarea id="edit-required-skills" name="required_skills" required>{{ job_posting.required_skills }}</textarea>
+
+        <label for="edit-education-required">Education Required:</label>
+        <input type="text" id="edit-education-required" name="education_required" value="{{ job_posting.education_required }}">
+
+        <label for="edit-contact-email">Contact Email:</label>
+        <input type="email" id="edit-contact-email" name="contact_email" value="{{ job_posting.contact_email }}" required>
+
+        <label for="edit-is-active">Active:</label>
+        <input type="checkbox" id="edit-is-active" name="is_active" {% if job_posting.is_active %}checked{% endif %}>
+
+        <button type="submit" class="edit-job-save-btn">Save</button>
+    </form>
+</div>
+
+{% endblock content %}

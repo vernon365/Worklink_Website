@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="my-space-container"></div>
+    <div class="profile-container">
+        <header class="profile-header">
+            <div class="profile-picture">
+                <img src="{{ profile.profile_photo.url }}" alt="{{ profile.first_name }}'s profile photo" alt="Profile Picture">
+            </div>
+            <div class="profile-info">
+                <h1>{{request.user.job_seeker_profile.first_name}} {{request.user.job_seeker_profile.last_name}}</h1>
+                <p class="job-title">{{request.user.job_seeker_profile.carrier}}</p>
+                <p class="location">{{request.user.job_seeker_profile.province}}</p>
+            </div>
+        </header>
+    
+        <section class="about-section" style="white-space: pre-line;">
+            <h2>About Me</h2>
+            <p>{{request.user.job_seeker_profile.about_me}}</p>
+        </section>
+
+    
+        <section class="experiences-section">
+            <button class="btn-btn-primary" id="add-experience-btn" style="float:right">Add Experience</button>
+            <h2>Experiences</h2>
+
+            <ul id="experiences-list" class="experiences-list">
+
+            </ul>
+    
+            <form id="experience-form" style="display: none;">
+                {% csrf_token %}
+                <input type="text" id="experience-title" placeholder="Title" required />
+                <input type="text" id="experience-organization" placeholder="Organization" />
+                <textarea id="experience-description" placeholder="Description" required></textarea>
+                <input type="text" id="experience-referer-name" placeholder="Referer Name" />
+                <input type="text" id="experience-referer-contact" placeholder="Referer Contact" />
+                <button type="button" id="save-experience-btn">Save</button>
+            </form>
+        </section>
+        
+
+        
+
+    
+
+
+
+        <section class="skills-section">
+            <button class="btn-btn-primary" id="add-remove-skills-btn" style="float:right">Add/Remove Skills</button>
+            <h2>Skills</h2>
+
+            
+            <!-- List of skills -->
+            <ul id="skills-list" class="skills-list"></ul>
+            
+            <!-- Skill input form -->
+            <div id="skills-form" class="skill-inputs">
+                <input type="text" id="skill-input" placeholder="Enter a skill" />
+                <button class="btn-btn-primary" id="add-skill-btn">Add Skill</button>
+                <button class="btn btn-success" id="save-skills-btn">Save</button>
+            </div>
+        </section>
+        
+        
+          
+        <section class="contact-section">
+            <h2>Contact Information</h2>
+            <p>Email: johndoe@example.com</p>
+            <p>Phone: +123456789</p>
+        </section>
+    
+        <footer>
+            <button class="edit-profile-btn" onclick="editProfile()">Edit Profile</button>
+        </footer>
+    </div>
+</div>
+  
+{% endblock content %}  

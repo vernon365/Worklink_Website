@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class='i-e-heading'>Select or create your Company </h2>
+<div class="create-company-btn">
+    <a href="{% url 'company_profile_setup' %}">
+        <button class="c-e-p-create-btn">Create A Company Profile</button>
+    </a>
+</div>
+<div class="c-e-p-container">
+    <form method="GET" action="{% url 'search_results' %}" class="c-e-p-search-form">
+        <label class="c-e-p-search-label">Search for your company:</label>
+        <input type="text" name="q" class="c-e-p-search-input" placeholder="Search...">
+        <button type="submit" class="c-e-p-search-btn">Search</button>
+    </form>
+
+    <ul id="company-list" class="c-e-p-company-list">
+        {% for company in companies %}
+            <a href="{% url 'choose_company' company.id %}" class="c-e-p-company-link">
+                <li class="c-e-p-company-item">{{ company }}</li>
+            </a>
+        {% endfor %}
+    </ul>
+
+    <form id="company-form" method="POST" action="{% url 'select_create_company' %}" class="c-e-p-company-form">
+        {% csrf_token %}
+        <input type="hidden" id="company-id" name="company_id" value="">
+    </form>
+</div>
+
+<br>
+
+
+<script>
+    function selectCompany(companyId) {
+        // Set the hidden input to the selected company's ID
+        document.getElementById('company-id').value = companyId;
+
+        // Automatically submit the form to send the company ID to the backend
+        document.getElementById('company-form').submit();
+    }
+</script>
+{% endblock content %}
