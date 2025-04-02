@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="t-container">
+    <div class="t-c-wrapper">
+        <h2 class="t-form-title">Create a Team</h2>
+        
+        <!-- Display existing team logo if available -->
+        {% if team and team.team_logo %}
+        <div class="t-logo-preview">
+            <img src="{{ team.team_logo.url }}" alt="Team Logo" class="t-logo-img">
+        </div>
+        {% endif %}
+        
+        <!-- Form to create team -->
+        <form method="POST" enctype="multipart/form-data" class="t-form">
+            {% csrf_token %}
+            
+            <div class="t-form-group">
+                <label for="t-team-name" class="t-label">Team Name</label>
+                <input type="text" id="t-team-name" name="team_name" class="t-input" placeholder="Enter team name" required>
+            </div>
+    
+            <div class="t-form-group">
+                <label for="t-description" class="t-label">Team Description</label>
+                <textarea id="t-description" name="description" class="t-textarea" rows="4" placeholder="Enter team description"></textarea>
+            </div>
+    
+            <div class="t-form-group">
+                <label for="t-specialization" class="t-label">Specialization</label>
+                <input type="text" id="t-created-by" name="created_by" class="t-input" placeholder="Industry" required>
+            </div>
+    
+            <!-- File input for team logo -->
+            <div class="t-form-group">
+                <label for="t-team-logo" class="t-label">Team Logo</label>
+                <input type="file" id="t-team-logo" name="team_logo" class="t-input" accept="image/*">
+            </div>
+    
+            <button type="submit" class="t-submit-btn">Create Team</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

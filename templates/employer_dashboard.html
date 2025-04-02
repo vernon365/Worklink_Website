@@ -1,0 +1,278 @@
+<div class="dashboard-container">
+    <!-- Sidebar Menu -->
+    <nav class="sidebar">
+        <ul>
+            <li><a href="#dashboard" class="menu-item active">Dashboard</a></li>
+            <li><a href="#manage-jobs" class="menu-item">Manage Jobs</a></li>
+            <li><a href="#applications" class="menu-item">Applications</a></li>
+            <li><a href="#messages" class="menu-item">Interviews</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <section id="dashboard">
+            <h2>Dashboard</h2>
+            
+            <div class="dashboard-overview">
+                <a href="/job-listings" class="overview-card">
+                    <h3>Total Job Listings</h3>
+                    <div class="overview-number">15</div>
+                    <p class="overview-description">Manage and view your active job postings.</p>
+                </a>
+                <a href="/applications" class="overview-card">
+                    <h3>Applications Received</h3>
+                    <div class="overview-number">87</div>
+                    <p class="overview-description">Review and respond to job applications from candidates.</p>
+                </a>
+                <a href="/messages" class="overview-card">
+                    <h3>New Messages</h3>
+                    <div class="overview-number">5</div>
+                    <p class="overview-description">Check your latest messages from job seekers and candidates.</p>
+                </a>
+                <a href="/interviews" class="overview-card">
+                    <h3>Upcoming Interviews</h3>
+                    <div class="overview-number">3</div>
+                    <p class="overview-description">See your scheduled interviews and manage them.</p>
+                </a>
+            </div>
+            
+            <div class="candidate-profiles">
+                <h2>Candidate Profiles</h2>
+                <div class="profiles-container">
+                    <div class="profile-card">
+                        <img src="https://via.placeholder.com/80" alt="Profile Picture" class="profile-picture">
+                        <div class="profile-info">
+                            <h3>Jane Doe</h3>
+                            <p class="profile-field">Software Engineer</p>
+                        </div>
+                    </div>
+                    <div class="profile-card">
+                        <img src="https://via.placeholder.com/80" alt="Profile Picture" class="profile-picture">
+                        <div class="profile-info">
+                            <h3>John Smith</h3>
+                            <p class="profile-field">Graphic Designer</p>
+                        </div>
+                    </div>
+                    <div class="profile-card">
+                        <img src="https://via.placeholder.com/80" alt="Profile Picture" class="profile-picture">
+                        <div class="profile-info">
+                            <h3>Emily Johnson</h3>
+                            <p class="profile-field">Marketing Specialist</p>
+                        </div>
+                    </div>
+                    <div class="profile-card">
+                        <img src="https://via.placeholder.com/80" alt="Profile Picture" class="profile-picture">
+                        <div class="profile-info">
+                            <h3>Michael Brown</h3>
+                            <p class="profile-field">Data Analyst</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <section id="manage-jobs">
+            <div class="section-header">
+                <h2>Manage Jobs</h2>
+            </div>
+            <div class="e-d-jobpost-dashboard">
+                <a href="{% url 'create_job_posting' %}"><button class="e-d-jobpost-create-btn" id="e-d-jobpost-createJobBtn">Create New Job</button></a>
+
+                <!-- Job Listings Section -->
+                <div class="e-d-jobpost-job-listings">
+        
+                    <!-- Job table -->
+                    <table class="e-d-jobpost-job-table">
+                        <thead>
+                            <tr>
+                                <th>Job Title</th>
+                                <th>Location</th>
+                                <th>Posted Date</th>
+                                <th>Applicants</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="e-d-jobpost-jobTableBody">
+                            {% for job in jobpostings %}
+                            {% if job.employer == request.user %}
+                            <tr>
+                                <td>{{job.title}}</td>
+                                <td>{{job.location}}</td>
+                                <td>{{job.posted_date}}</td>
+                                <td>{{job.application_count}}</td>
+                                <td>{{job.is_active}}</td>
+                                <td>
+                                    <a href="{% url 'edit_job_posting' job.id %}">
+                                        <button class="e-d-jobpost-btn-edit">Edit</button>
+                                    </a>
+                                    <button class="e-d-jobpost-btn-view">View Applicants</button>
+                                    <!-- Removed id from the delete button -->
+                                    <button class="e-d-jobpost-btn-delete">Delete</button>
+                                    <div class="e-d-delete-job-modal-overlay" style="display: none;">
+                                        <div class="e-d-delete-job-modal">
+                                            <span class="e-d-delete-job-modal-close">&times;</span>
+                                            <h1>Are you sure you want to delete job {{ job.title }}?</h1>
+                                            <button class="e-d-delete-job-confirm-btn">Yes</button>
+                                            <button class="e-d-delete-job-cancel-btn">Cancel</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endif %}
+
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Create/Edit Job Modal -->
+                <div id="e-d-jobpost-jobModal" class="e-d-jobpost-modal">
+                    <div class="e-d-jobpost-modal-content">
+                        <span class="e-d-jobpost-close" id="e-d-jobpost-closeModal">&times;</span>
+                        <h2>Create New Job</h2>
+                        <form id="e-d-jobpost-jobForm">
+                            <label for="e-d-jobpost-jobTitle">Job Title:</label>
+                            <input type="text" id="e-d-jobpost-jobTitle" required>
+                            
+                            <label for="e-d-jobpost-location">Location:</label>
+                            <input type="text" id="e-d-jobpost-location" required>
+        
+                            <label for="e-d-jobpost-postedDate">Posted Date:</label>
+                            <input type="date" id="e-d-jobpost-postedDate" required>
+        
+                            <label for="e-d-jobpost-status">Status:</label>
+                            <select id="e-d-jobpost-status" required>
+                                <option value="Active">Active</option>
+                                <option value="Paused">Paused</option>
+                            </select>
+        
+                            <button type="submit" class="e-d-jobpost-submit-btn">Save Job</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="applications">
+            <div class="section-header">
+                <h2>Manage Jobs</h2>
+            </div>
+            <div class="e-d-jobpost-dashboard">
+                <!-- Job Listings Section -->
+                <div class="e-d-jobpost-job-listings">   
+                    <!-- Job table -->
+                    <table class="e-d-jobpost-job-table">
+                        <thead>
+                            <tr>
+                                <th>Applicant Name</th>
+                                <th>Job Title</th>
+                                <th>Applied Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody id="e-d-jobpost-jobTableBody">
+                            {% for job in jobpostings %}
+                            {% if job.employer == request.user %}
+                            
+                            {% for app in job.applications %}
+                                    
+                            <tr>
+                                <td>{{app.job_seeker}}</td>
+                                <td>{{app.job_posting}}</td>
+                                <td>{{app.applied_at}}</td>
+                                <td>{{app.status}}</td>
+                                <td>
+                                    <a href="{% url 'view_applications' app.id %}">
+                                        <button class="e-d-jobpost-btn-edit">View</button>
+                                    </a>
+                                    <button class="e-d-jobpost-btn-view">Change Status</button>
+                                    <!-- Removed id from the delete button -->
+                                    <button class="e-d-jobpost-btn-delete">Delete</button>
+                                    <div class="e-d-delete-job-modal-overlay" style="display: none;">
+                                        <div class="e-d-delete-job-modal">
+                                            <span class="e-d-delete-job-modal-close">&times;</span>
+                                            <h1>Are you sure you want to delete job {{ job.title }}?</h1>
+                                            <button class="e-d-delete-job-confirm-btn">Yes</button>
+                                            <button class="e-d-delete-job-cancel-btn">Cancel</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Create/Edit Job Modal -->
+                <div id="e-d-jobpost-jobModal" class="e-d-jobpost-modal">
+                    <div class="e-d-jobpost-modal-content">
+                        <span class="e-d-jobpost-close" id="e-d-jobpost-closeModal">&times;</span>
+                        <h2>Create New Job</h2>
+                        <form id="e-d-jobpost-jobForm">
+                            <label for="e-d-jobpost-jobTitle">Job Title:</label>
+                            <input type="text" id="e-d-jobpost-jobTitle" required>
+                            
+                            <label for="e-d-jobpost-location">Location:</label>
+                            <input type="text" id="e-d-jobpost-location" required>
+        
+                            <label for="e-d-jobpost-postedDate">Posted Date:</label>
+                            <input type="date" id="e-d-jobpost-postedDate" required>
+        
+                            <label for="e-d-jobpost-status">Status:</label>
+                            <select id="e-d-jobpost-status" required>
+                                <option value="Active">Active</option>
+                                <option value="Paused">Paused</option>
+                            </select>
+        
+                            <button type="submit" class="e-d-jobpost-submit-btn">Save Job</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="messages">
+            <h2>Interviews</h2>
+            <p>Your Interviews with Job Seekers</p>
+            <ul>
+                <li>Interview with Applicant 1</li>
+                <li>Interview with Applicant 2</li>
+                <li>Interview with Applicant 3</li>
+            </ul>
+        </section>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const menuItems = document.querySelectorAll('.menu-item');
+        const sections = document.querySelectorAll('section');
+    
+        menuItems.forEach(item => {
+            item.addEventListener('click', function (event) {
+                // Prevent the default behavior of the anchor (jumping to the section)
+                event.preventDefault();
+    
+                // Remove active class from all menu items
+                menuItems.forEach(menu => menu.classList.remove('active'));
+    
+                // Add active class to the clicked menu item
+                this.classList.add('active');
+    
+                // Hide all sections
+                sections.forEach(section => section.style.display = 'none');
+    
+                // Show the corresponding section
+                const sectionId = this.getAttribute('href').substring(1); // Get the section id
+                document.getElementById(sectionId).style.display = 'block';
+            });
+        });
+    
+        // Display the first section by default
+        document.getElementById('dashboard').style.display = 'block';
+    });    
+</script>

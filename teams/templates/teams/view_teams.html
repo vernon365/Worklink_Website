@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="u-t-container">
+    <h1 class="u-t-page-title">Team Listings</h1>
+    
+    <!-- Section for My Teams -->
+    <section class="u-t-section">
+        <h2 class="u-t-section-title">My Teams</h2>
+            <div class="u-t-team-grid">
+                <!-- Team Card 1 -->
+                {% for team in teams %}
+                {% if team.created_by == request.user %}
+                <div class="u-t-team-card">
+                    <img src="{{ team.team_logo.url }}" alt="Team Logo" class="u-t-team-logo">
+                    <h3 class="u-t-team-name">{{team.name}}</h3>
+                    <p class="u-t-team-desc">{{team.description}}</p>
+                    <p class="u-t-team-desc">{{team.get_member_count}}</p>
+                    <a href="{% url 'team_details' team.id %}"><button class="u-t-view-btn">View Team</button></a>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>  
+    </section>
+    <!-- Section for Other Teams -->
+    <section class="u-t-section">
+        <h2 class="u-t-section-title">Other Teams</h2>
+        <div class="u-t-team-grid">
+            <!-- Team Card 1 -->
+            <div class="u-t-team-card">
+                <img src="team-logo3.jpg" alt="Team Logo" class="u-t-team-logo">
+                <h3 class="u-t-team-name">Team Gamma</h3>
+                <p class="u-t-team-desc">A team specializing in software engineering.</p>
+                <button class="u-t-view-btn">View Team</button>
+            </div>
+            
+            <!-- Team Card 2 -->
+            <div class="u-t-team-card">
+                <img src="team-logo4.jpg" alt="Team Logo" class="u-t-team-logo">
+                <h3 class="u-t-team-name">Team Delta</h3>
+                <p class="u-t-team-desc">Focusing on digital marketing strategies.</p>
+                <button class="u-t-view-btn">View Team</button>
+            </div>
+
+            <!-- Additional Team Cards here... -->
+        </div>
+    </section>
+</div>
+{% endblock content %}

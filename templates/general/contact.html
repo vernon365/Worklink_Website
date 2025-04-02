@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+    <div class="worklink-contact-container">
+        <h1 class="worklink-contact-title">Contact Us</h1>
+        <p class="worklink-contact-description">If you have any questions or need assistance, feel free to reach out to us. We are here to help!</p>
+
+        <div class="worklink-contact-info">
+            <div class="worklink-contact-item">
+                <h2 class="worklink-contact-heading">Email Us</h2>
+                <p class="worklink-contact-text">Email: support@worklink.com</p>
+            </div>
+            <div class="worklink-contact-item">
+                <h2 class="worklink-contact-heading">Call Us</h2>
+                <p class="worklink-contact-text">Phone: +123 456 7890</p>
+            </div>
+            <div class="worklink-contact-item">
+                <h2 class="worklink-contact-heading">Visit Us</h2>
+                <p class="worklink-contact-text">Address: 123 WorkLink Street, Business District, City</p>
+            </div>
+        </div>
+
+        <form class="worklink-contact-form">
+            <h2 class="worklink-contact-form-title">Send Us a Message</h2>
+
+            <label for="worklink-contact-name" class="worklink-contact-label">Your Name:</label>
+            <input type="text" id="worklink-contact-name" name="name" class="worklink-contact-input" required>
+
+            <label for="worklink-contact-email" class="worklink-contact-label">Your Email:</label>
+            <input type="email" id="worklink-contact-email" name="email" class="worklink-contact-input" required>
+
+            <label for="worklink-contact-message" class="worklink-contact-label">Message:</label>
+            <textarea id="worklink-contact-message" name="message" class="worklink-contact-textarea" rows="5" required></textarea>
+
+            <button type="submit" class="worklink-contact-button">Send Message</button>
+        </form>
+    </div>
+
+
+{% endblock content %}
+

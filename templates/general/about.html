@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="worklink-about-container">
+    <div class="about-us">
+        <div class="worklink-about-title">
+            <h1>About Us</h1>
+        </div>
+    </div>
+    <p class="worklink-about-description">
+        WorkLink is a trusted platform based in Papua New Guinea, dedicated to connecting job seekers with employers 
+        and providing HR consultancy services to help businesses thrive in the competitive job market.
+    </p>
+    
+    <section class="worklink-about-mission">
+        <h2 class="worklink-about-section-title">Our Mission</h2>
+        <p class="worklink-about-text">
+            At WorkLink, our mission is to create meaningful connections between talented individuals and organizations. 
+            We strive to make job-seeking and hiring processes simpler, more efficient, and more accessible for everyone, 
+            especially within Papua New Guinea’s diverse job market.
+        </p>
+    </section>
+    
+    <section class="worklink-about-values">
+        <h2 class="worklink-about-section-title">Our Values</h2>
+        <ul class="worklink-about-values-list">
+            <li class="worklink-about-value"><strong>Integrity:</strong> We believe in honest and transparent communication in everything we do.</li>
+            <li class="worklink-about-value"><strong>Excellence:</strong> We are committed to delivering high-quality services to both job seekers and employers.</li>
+            <li class="worklink-about-value"><strong>Innovation:</strong> We continuously innovate to bring you the best job-matching tools and consultancy services.</li>
+            <li class="worklink-about-value"><strong>Community:</strong> We are dedicated to creating positive impacts in the communities we serve, with a special focus on supporting the workforce of Papua New Guinea.</li>
+        </ul>
+    </section>
+    
+    <section class="worklink-about-team">
+        <h2 class="worklink-about-section-title">Meet Our Team</h2>
+        <div class="worklink-about-team-grid">
+            <div class="worklink-about-team-member">
+                <img src="{% static 'imgs/team/john_doe.jpg' %}" alt="CEO" class="worklink-about-team-image">
+                <h3 class="worklink-about-team-name">John Doe</h3>
+                <p class="worklink-about-team-position">CEO</p>
+            </div>
+            <div class="worklink-about-team-member">
+                <img src="{% static 'imgs/team/jane_smith.jpg' %}" alt="HR Manager" class="worklink-about-team-image">
+                <h3 class="worklink-about-team-name">Jane Smith</h3>
+                <p class="worklink-about-team-position">HR Manager</p>
+            </div>
+            <div class="worklink-about-team-member">
+                <img src="{% static 'imgs/team/mark_johnson.jpg' %}" alt="Tech Lead" class="worklink-about-team-image">
+                <h3 class="worklink-about-team-name">Mark Johnson</h3>
+                <p class="worklink-about-team-position">Tech Lead</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

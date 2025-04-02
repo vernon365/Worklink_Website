@@ -1,0 +1,163 @@
+  {% load static %}
+<header>
+  <div class="header-container">
+    <div class="header-visible-content">
+      <div class="menu-icon" id="mobileMenu" onclick="toggleMobileMenu()">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </div>
+      <div class="header-logo-wrapper">
+        <p><a href="{% url 'home' %}" class="logo">WORKLINK</a></p>
+      </div> 
+      <div class="header-menu-container">
+        <nav>
+            <ul class="nav-links">
+            <li><a href="{% url 'home' %}">Home</a></li> 
+            <li><a href="{% url 'home' %}">Services</a></li> 
+            <li><a href="{% url 'about' %}">About Us</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+            {% if user.role == 'job_seeker' %}
+            <li><a href="{% url 'job_seeker_db' %}"><strong>Dashboard</strong></a></li>
+            <li><a href="{% url 'team_list' %}">My Teams</a></li>
+            {% endif %}
+         </ul>
+        </li>
+      </ul>
+        </nav>    
+      </div>
+      <!-- Buttons for Login and Signup -->
+      {% if not user.is_authenticated %}
+      <div class="header-auth-buttons">
+        <button id="login-btn" class="header-btn" onclick="openModal('login-form-container')">
+          Login
+        </button>
+        <button id="signup-btn" class="header-btn" onclick="openModal('signup-form-container')">
+          Signup
+        </button>
+      </div>
+      {% endif %}
+      <!-- User Circle with Dropdown (If authenticated) -->
+      {% if user.is_authenticated %}
+      <div class="header-user-profile">
+        <div class="header-user-profile-visible">
+          <div class="notification-container">
+            <button id="notification-button" class="notification-button" onclick="getNotifications()">
+                <div class="notification-icon">
+                    <img src="{% static 'imgs/notify-bell.png' %}" alt="Notifications" width="30px" height="30px">
+                    <span id="notification-badge" class="notification-badge"></span>
+                </div>
+            </button>
+            <div id="notification-dropdown" class="notification-dropdown">
+                <ul id="notification-list">
+                    <!-- Notifications will be dynamically inserted here -->
+                </ul>
+            </div>
+          </div>
+          <div class="user-circle" onclick="toggleDropdown('dropdownMenu')">
+    
+            {% if user.username %}
+                <span id="user-initial">
+                    {{ user.username|slice:":1" }}
+                </span>
+            {% else %}
+                ?
+            {% endif %}
+          </div>
+        </div>
+        <div class="dropdown" id="dropdownMenu">
+          {% if request.user.role == 'job_seeker' %}
+            <a href="{% url 'job_seeker_db' %}">Dashboard</a>
+            <a href="{% url 'view_profile' %}">Profile</a>
+          {% endif %}
+          {% if request.user.role == 'employer' %}
+            <a href="{% url 'home' %}">Dashboard</a>
+            <a href="{% url 'company_profile_view' %}">Profile</a>
+          {% endif %}
+          <a href="{% url 'accounts:logout' %}">Logout</a>
+        </div>
+      </div>  
+      {% endif %}
+    </div>
+
+      
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav" id="mobileNav">
+      <div id="mobileNavClose" onclick="closeModal('mobileNav')">
+        <p>X</p>
+      </div>
+      <div class="mobile-nav-items">
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'contact' %}">Contact</a>
+      </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-form-container" class="modal" aria-hidden="true">
+      <div class="modal-content">
+          <button class="close-modal-btn" id="close-login-form" aria-label="Close login form" onclick="closeModal('login-form-container')">
+              <i class="fas fa-times"></i>
+          </button>
+          <h2>Welcome Back</h2>
+          <form id="loginForm" class="auth-forms" method="post" data-login-url="{% url 'accounts:login' %}">
+            {% csrf_token %}
+              
+              <label for="loginUsername">Email</label>
+              <input type="text" id="loginUsername" name="username" placeholder="Username" required="">
+              <label for="loginPassword">Password</label>
+              <input type="password" id="loginPassword" name="password" placeholder="Password" required="">
+              <p id="loginError" style="color: red; display: none;"></p>
+              <button class="modal-btn" id="login-submit-btn" type="submit">Login</button>
+          </form>
+          
+          <div class="modal-links">
+              Don't have an account? <a href="#" onclick="openModal('signup-form-container')">Register</a><br>
+              <a href="#" onclick="openModal('forgotPasswordModal')">Forgot Password?</a>
+          </div>
+      </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="signup-form-container" class="modal" aria-hidden="true">
+      <div class="modal-content">
+          <button class="close-modal-btn" id="close-signup-form" aria-label="Close signup form" onclick="closeModal('signup-form-container')">
+              <i class="fas fa-times"></i>
+          </button>
+          <h2> Create Account</h2>
+          <form id="registerForm" class="auth-forms" method="post" data-register-url="{% url 'accounts:register' %}">
+              {% csrf_token %}
+              <label for="registerEmail">Email</label>
+              <input type="email" id="registerEmail" name="email" placeholder="Email" required>
+
+              <label for="registerPassword1">Password</label>
+              <input type="password" id="registerPassword1" name="password1" placeholder="Password" required>
+
+              <label for="registerPassword2">Confirm Password</label>
+              <input type="password" id="registerPassword2" name="password2" placeholder="Confirm Password" required>
+
+              <div id="registerError" style="color: red; display: none;"></div>
+
+              <button class="modal-btn" id="register-btn" type="submit">Register</button>
+          </form>
+      </div>
+    </div>
+
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotPasswordModal">
+      <div class="modal-content">
+        <button class="close-modal-btn" id="close-login-form" aria-label="Close login form" onclick="closeModal('forgotPasswordModal')">
+          <i class="fas fa-times"></i>
+      </button>
+        <h2>Forgot Password</h2>
+
+        <form id="forgotPasswordForm">
+          <label for="forgotPasswordEmail">Email Address</label>
+          <input type="email" id="forgotPasswordEmail" placeholder="Email Address" required>
+          <button class="modal-btn" type="submit">Reset Password</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>

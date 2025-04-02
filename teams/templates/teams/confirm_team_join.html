@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <p>Are you sure you want 
+        <strong>{{join_request.user.job_seeker_profile.first_name}} {{join_request.user.job_seeker_profile.last_name}}</strong> 
+        to join your Team?
+    </p>
+    <form method="post" action="{% url 'confirm_team_join' join_request.id %}">
+        {% csrf_token %}
+        <input type="submit" value="YES">
+    </form>
+    <a href="">Back</a>
+{% endblock content %}

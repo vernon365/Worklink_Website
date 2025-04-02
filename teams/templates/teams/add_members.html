@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="m-container">
+    <h1 class="m-title">Select Job Seekers</h1>
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="m-form-container">
+            <ul class="m-jobseekers-list">
+                {% for member in job_seekers %}
+                    <li class="m-jobseeker-item">
+                        <label class="m-jobseeker-label">
+                            <input type="checkbox" name="selected_members" value="{{ member.id }}">
+                            <span class="m-jobseeker-name">{{ member.job_seeker_profile.first_name}} {{ member.job_seeker_profile.last_name}}</span>
+                        </label>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="m-button-container">
+            <button type="submit" class="m-submit-button">Submit Selected Members</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

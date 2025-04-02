@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="tt-content">
+    {% if team.created_by == request.user %}
+        <div class="tt-edit-team-action">
+            <a href="Edit" class="tt-action-btn">Edit</a>
+            <a href="Edit" class="tt-action-btn">Delete </a>
+            <a href="{% url 'add_members' team.id %}">
+                <button>Add Member</button>
+            </a>
+        </div>
+    {% endif %}
+    <div class="t-team-container">
+        <!-- Team Logo and Details on the Left Side -->
+        <div class="t-team-left">
+            <!-- Display Team Logo -->
+
+            <div class="t-team-logo">
+                <img src="{{ team.team_logo.url }}" alt="Team Logo" class="t-team-logo-img">
+            </div>
+            
+            <!-- Team Details Section -->
+            <div class="t-team-details">
+                <h1 class="t-team-name">{{team.name}}</h1>
+                <p class="t-team-description">Specialization: {{team.specialization}}</p>
+                <p class="t-team-description">Description: {{team.description}}</p>
+                <div class="t-team-admin">
+                    <strong>Admin:</strong> {{team.created_by.job_seeker_profile.first_name}} {{team.created_by.job_seeker_profile.last_name}}
+                </div>
+                <p>Created at: {{team.created_at}}</p>
+       
+                <!-- Member Count -->
+                <div class="t-team-members">
+                    <strong>Team Members:</strong> {{team.get_member_count}}
+                </div>
+            </div>
+        </div>
+    
+        <!-- Team Members List on the Right Side -->
+        <div class="t-team-right">
+            <div class="t-member-list">
+                <h3>Members</h3>
+                <ul class="team-members">
+                    <!-- Example list of members -->
+
+                    {% for m in team_members %}
+                    <li><a href="">{{m.user.job_seeker_profile.first_name}} {{m.user.job_seeker_profile.last_name}}</a></li>
+                    {% endfor %}
+                    <!-- Add more members as needed -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% if team.created_by == request.user %}
+    <div class="t-request-container">
+        <h2>REQUESTS</h2>
+        <div class="t-request-list">
+            {% for t in team_requests %}
+                {% if t.status == 'pending' %}
+                    <div class="t-r-item">
+                        <div class="t-r-name">
+                            <p>
+                                <a href="{% url 'visitor_view_profile' t.user.job_seeker_profile.id %}">{{t.user.job_seeker_profile.first_name}} {{t.user.job_seeker_profile.last_name}}</a>
+                            </p>
+                        </div>
+                        <div class="t-r-actions">
+                            <a href="{% url 'confirm_message' t.id %}"><button>Accept</button></a>
+                            <button>Decline</button>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    {% if my_request %}
+        {% if my_request.status != 'accepted' %}
+            <div class="t-m-request-container">
+                <p>Your request to join this team is: {{ my_request.status }}</p>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="t-join-request" style="text-align: center;">
+            <a href="{% url 'join_request' team.id %}"><button style="background-color: rgb(214, 230, 75);">Send a Join Request</button></a>
+        </div>
+    {% endif %}
+    {% endif %}
+
+</div>
+{% endblock content %}

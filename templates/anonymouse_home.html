@@ -1,0 +1,221 @@
+{% load humanize %}
+{% load static %}
+
+<header class="js-header">
+
+    <div class="js-header-container-left">
+        <h1>Welcome to Worklink</h1>
+        <p>Your trusted partner in finding the best job opportunities and providing tailored HR consultancy services across Papua New Guinea. Whether you're a job seeker or an employer, we're here to help you succeed</p>
+        
+        <form class="search-bar">
+            <div class="search-container">
+                <input type="text" placeholder="Search for jobs or services..." name="search" />
+                <button type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="js-header-container-right">
+        <div class="worklink-container">
+            <div class="worklink-value-item">
+                <label for="worklink-job">✔ Find Jobs Quickly</label>
+            </div>
+            <div class="worklink-value-item">
+                <label for="worklink-teams">✔ Build and Manage Teams</label>
+            </div>
+            <div class="worklink-value-item">
+                <label for="worklink-hire">✔ Hire Top Talent Easily</label>
+            </div>
+            <div class="worklink-value-item">
+                <label for="worklink-notifications">✔ Get Job Notifications Instantly</label>
+            </div>
+        </div>
+        <button id="js-create-job-btn">Create a Job Post</button>
+        <a href="{% url 'create_team' %}">
+        <button id="js-create-job-btn">Create Team</button>
+        </a>
+
+    </div>
+</header>
+
+
+<section id="js-job-list">
+    <div class="js-job-stats">
+        <div class="total-jobs">
+            <h3>Available Job Vacancies</h3>
+            <p>{{total_jobs}} Jobs</p>
+        </div>
+        <div class="trending-industries-container">
+            <h2>Trending Industries</h2>
+            <div class="trending-industries">
+                {% for industry in industries %}
+                <div class="industry">
+                    <h4>{{industry.industry}}</h4>
+                    <p>Jobs: {{industry.jobs}}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <h3 style="text-align: center;">Filter Jobs</h3>
+    <div class="js-job-search-filter">
+        <form id="job-filter-form" method="GET">
+            <!-- Job Type Filter -->
+            <select class="filter-select" name="job_type">
+                <option value="">Job Type</option>
+                {% for value, display in JOB_TYPE_CHOICES %}
+                    <option value="{{ value }}">{{ display }}</option>
+                {% endfor %}
+            </select>
+            <p>Remove This</p>
+            <!-- Province (Region) Filter -->
+            <select class="filter-select" name="region">
+                <option value="">Province</option>
+                {% for value, display in PROVINCE_CHOICES %}
+                    <option value="{{ value }}">{{ display }}</option>
+                {% endfor %}
+            </select>
+    
+            <!-- Industry Filter -->
+            <select class="filter-select" name="industry">
+                <option value="">-- Select an Industry --</option>
+                {% for value, display in INDUSTRY_CHOICES %}
+                    <option value="{{ value }}">{{ display }}</option>
+                {% endfor %}
+            </select>
+    
+            <button type="submit" class="filter-button">Go</button>
+        </form>
+    </div>
+    
+    <div id="recently-posted-jobs">
+        <h2 class="js-section-headings">Jobs</h2>
+        <div class="js-job-container" id="recently-posted-job-container">
+            {% for job in jobpostings %}
+            <div class="js-job-post">
+                <div class="js-company-info">
+                
+                    {% if job.employer_company_logo %}
+                        <img src="{{ job.employer_company_logo }}" alt="{{ job.employer }}'s logo" style="width:100px; height:auto;">
+                        
+                        {% if job.employer_profile_type == 'EmployerProfile' %}
+                            <h3><a class="js-company_name" href="">{{ job.employer_company_name }}</a></h3>
+                            <p class="js-job-poster">Posted by: {{ job.employer.employer_profile.first_name }}</p>
+                        {% elif job.employer_profile_type == 'IndividualEmployerProfile' %}
+                            <h5><a class="js-company_name" href="">{{ job.employer_profile_name }}</a></h5>
+                        {% endif %}
+                    {% else %}
+                        <p>No logo available.</p>
+                    {% endif %}
+                </div>
+                <div class="js-job-info">
+                    <h3>{{ job.title }}</h3>
+                    <br>
+                    <p>{{ job.description }}</p>
+                    <p><strong>Type:</strong> {{ job.job_type }}</p>
+                    <p><strong>Deadline:</strong> {{ job.application_deadline }}</p>
+                    <br>
+                    <p class="js-posted-time">posted: {{ job.posted_date|timesince }} ago</p>
+                </div>
+                <div class="js-job-buttons">
+                    {% if not job.applied %}
+                    <a class="js-button" id="js-apply-btn" onclick="handleApplyClick()">Apply</a>   
+                    {% else %}   
+                    <span>Applied: </span><a href="">View Application</a>              
+                    {% endif %}
+                    <a class="js-button" id="js-view-btn" onclick="handleApplyClick()">View</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    
+    <div id="filtered-jobs" style="display: none;"> <!-- Initially hidden -->
+        <h2 class="js-section-headings">Filtered Jobs</h2>
+        <div class="js-job-container" id="filtered-job-container">
+            <!-- Filtered jobs will be inserted here -->
+        </div>
+    </div>
+
+</section>
+
+
+
+<div id="hr-section">
+    <hr> 
+<div class="hr-section">
+    <h1 class="hr-section-heading">Workforce Information</h1>
+
+    <div class="profile-data-section">
+        <!-- Industry Profiles Section -->
+        <h2>Industry Profiles</h2>
+        <table class="profile-data-table">
+            <thead>
+                <tr>
+                    <th>Industry</th>
+                    <th>Number of Profiles</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for industry, data in industry_profile_data.items %}
+                    <tr>
+                        <td class="industry-name">{{ industry }}</td>
+                        <td>
+                            <div id="industry-{{ forloop.counter }}" class="collapse">
+                                <div class="profile-list-container">
+                                    <ul>
+                                        {% for profile in data.profiles %}
+                                            <li class="profile-item">
+                                                {% if profile.profile_photo %}
+                                                    <img src="{{ profile.profile_photo }}" alt="{{ profile.first_name }}'s photo" class="h-profile-photo">
+                                                {% else %}
+                                                    <img src="/static/default-profile.png" alt="Default Profile Photo" class="h-profile-photo">
+                                                {% endif %}
+                                                <a href="{% url 'view_user_profile' profile.id %}" class="profile-name">
+                                                    {{ profile.first_name }} {{ profile.last_name }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        
+        
+    
+        <!-- School Profiles Section -->
+
+        
+    </div>
+    
+      
+</div>
+</div>
+
+
+
+
+<div id="js-why-choose-worklink">
+  <h2 class="js-section-headings">Why Choose Worklink?</h2>
+  <div class="js-reasons-container">
+      <div class="js-reason">
+          <h2 class="js-reason-heading">Expert Guidance</h2>
+          <p> Our team consists of HR professionals with years of experience.</p>
+      </div>
+      <div class="js-reason">
+          <h2 class="js-reason-heading">Wide Network</h2>
+          <p>We connect you with top companies in various industries.</p>
+      </div>
+      <div class="js-reason">
+          <h2 class="js-reason-heading">Personalized Support</h2>
+          <p>We tailor our services to meet your unique career needs.</p>
+      </div>
+  </div>
+</div>
+

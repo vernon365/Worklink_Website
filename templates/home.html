@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    {% if user.role == 'job_seeker' %}
+        {% include 'job_seeker_home.html' %}
+    {% endif %}
+    {% if user.role == 'employer' %}
+        {% include "employer_dashboard.html" %}
+    {% endif %}
+{% endif %}
+{% if not user.is_authenticated %}
+    {% include 'anonymouse_home.html' %}
+{% endif %}
+
+{% endblock content %}
+    
